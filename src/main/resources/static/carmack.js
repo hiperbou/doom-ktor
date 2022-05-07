@@ -14,8 +14,8 @@ if (window.location.hostname == "127.0.0.1") {
     wsbase = "ws://127.0.0.1:8000";
 } else {
     web = "https://doom-ktor.herokuapp.com";
-    base = "https://router.doom-ktor.herokuapp.com";
-    wsbase = "wss://router.doom-ktor.herokuapp.com";
+    base = "https://doom-ktor.herokuapp.com";
+    wsbase = "wss://doom-ktor.herokuapp.com";
 }
 
 /*web = "https://doom-ktor.herokuapp.com";
