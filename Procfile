@@ -1,1 +1,1 @@
-web: ./build/install/com.hiperbou.doom-ktor/bin/doom-ktor
+web: ./build/install/com.hiperbou.doom-ktor/bin/com.hiperbou.doom-ktor
