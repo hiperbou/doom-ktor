@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>Ktor WebSockets Wasm Doom</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="romero.css">
+    <meta name="viewport" content="minimal-ui, width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta property="og:title" content="Multiplayer WebSockets Doom">
+    <meta property="og:description" content="Multiplayer Doom on Ktor">
+    <meta property="og:url" content="https://doom-ktor.herokuapp.com">
+    <meta property="og:image" content="https://doom-ktor.herokuapp.com/share.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@hiperbou">
+    <meta name="twitter:description" content="Multiplayer Doom on Ktor">
+    <meta name="twitter:image" content="https://doom-ktor.herokuapp.com/share.png">
+  </head>
+  <body class="noselect">
+    <div id="container">
+      <div id="mobile">
+        <h1>For a better mobile experience, click "Hide Toolbar" in the URL toolbar</h1>
+        <img src="hidetoolbar.png">
+      </div>
+      <div id="monitor">
+        <div id="monitorscreen">
+          <canvas id="canvas" oncontextmenu="event.preventDefault()" tabindex="-1"></canvas>
+          <div id="menu">
+            <div id="logo" class="vspace" style="display:none"></div>
+            <div id="buttons" style="display:none">
+              <a class="btn grey" id="multiplayer">Start Multiplayer</a>
+              <a class="btn grey" id="solo">Play Solo</a>
+            </div>
+            <div id="text" style="display:none">
+              <h1>This is a WebAssembly Doom Port With</h1>
+              <h1><span class="h">Multiplayer</span> support running on top of Ktor</h1>
+              <h1>Using <a target="_new" href="https://ktor.io/" class="h">Ktor</a>, <a target="_new" href="https://kotlinlang.org/" class="h">Kotlin</a></h1>
+              <h1></h1>
+                <h1><a href="https://github.com/hiperbou/doom-ktor">Read More About This Project</a></h1>
+            </div>
+          </div>
+        </div>
+        <div id="footer" class="writer"></div>
+      </div>
+    </div>
+    <div id="joystick1"></div>
+    <div id="joystick2"></div>
+    <script type="text/javascript" src="ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
+    <script type="text/javascript" src="ajax/libs/nipplejs/0.9.0/nipplejs.js"></script>
+    <script type="text/javascript" src="carmack.js"></script>
+    <script type="text/javascript" src="websockets-doom.js"></script>
+    <!-- 
+    <script defer="" src='beacon.min.js' data-cf-beacon='{"token": "5806d7916dd84a4199a061921ecc53ed"}'></script>
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-FRH39ZYGGV"></script>
+    <script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-FRH39ZYGGV'); </script>
+    -->
+  </body>
+</html>
