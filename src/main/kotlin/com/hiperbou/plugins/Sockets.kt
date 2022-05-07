@@ -17,18 +17,18 @@ class GameRoom() {
     fun join(from:Byte, ws:DefaultWebSocketServerSession) {
         if(!sessions.contains(from)) {
             sessions.put(from, Player(from, ws))
-            println("player ${from} joined the game")
+            //println("player ${from} joined the game")
         }
     }
 
     suspend fun send(data:ByteArray, to:Byte) {
-        println("sending message to ${to.toUInt()}")
+        //println("sending message to ${to.toUInt()}")
         val player = sessions.get(to) ?: return
         player.ws.send(data.slice(4..data.lastIndex).toByteArray())
     }
 
     suspend fun restart() {
-        println("Restarting")
+        //println("Restarting")
         sessions.values.forEach{
             it.ws.close(CloseReason(CloseReason.Codes.INTERNAL_ERROR, "closing"))
         }
@@ -49,12 +49,12 @@ fun Application.configureSockets() {
         for (frame in ws.incoming) {
             when (frame) {
                 is Frame.Binary -> {
-                    println("a binary thing received")
+                    //println("a binary thing received")
                     val data = frame.readBytes()
 
                     val from = data.slice(4..7)[0]
                     val to = data.slice(0..3)[0]
-                    println("from $from, to $to")
+                    //println("from $from, to $to")
                     // initial packet from doom server, let's restart
                     if(from == 1.toByte() && to == 0.toByte()) gameRoom.restart()
                     // if it's a new client, add it to the table of clients
@@ -75,12 +75,12 @@ fun Application.configureSockets() {
 
     routing {
         webSocket("/api/ws/{room}") { // websocketSession
-            println("someone asking for ws!")
+            //println("someone asking for ws!")
             val room = call.parameters["room"]
-            println("room $room")
+            //println("room $room")
 
             handleSession(this)
-            println("finished ws connection")
+            //println("finished ws connection")
         }
     }
 

@@ -2,6 +2,7 @@ package com.hiperbou
 
 import com.hiperbou.plugins.configureRouting
 import com.hiperbou.plugins.configureSerialization
+import com.hiperbou.plugins.configureWeb
 import com.hiperbou.service.MockRoomService
 import com.hiperbou.service.NewRoomResponse
 import com.hiperbou.service.RoomResponse
@@ -28,6 +29,7 @@ class ApplicationTest {
         }
         application {
             configureSerialization()
+            configureWeb()
             configureRouting(MockRoomService())
         }
 
@@ -44,6 +46,11 @@ class ApplicationTest {
             val roomResponse = body<RoomResponse>()
             assertEquals("12344567890-1234567890", roomResponse.room)
             assertFalse(roomResponse.gameStarted)
+        }
+
+        client.get("/123").apply {
+            assertEquals(HttpStatusCode.OK, status)
+            println(bodyAsText())
         }
     }
 }

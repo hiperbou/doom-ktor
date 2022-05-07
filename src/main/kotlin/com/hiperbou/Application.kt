@@ -13,6 +13,7 @@ fun main() {
     ) {
         configureHeaders()
         configureSerialization()
+        configureWeb()
         configureRouting(MockRoomService())
         configureSockets()
     }.start(wait = true)
