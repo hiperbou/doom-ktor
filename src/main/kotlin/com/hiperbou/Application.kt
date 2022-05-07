@@ -7,6 +7,6 @@ import com.hiperbou.plugins.*
 fun main() {
     embeddedServer(Netty, port = System.getenv("PORT")?.toInt() ?: 8080) {
         configureRouting()
-        //configureSockets()
+        configureSockets()
     }.start(wait = true)
 }
