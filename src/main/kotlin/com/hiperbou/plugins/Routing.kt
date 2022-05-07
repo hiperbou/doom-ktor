@@ -23,6 +23,10 @@ fun Application.configureRouting(roomService: RoomService) {
             call.respond(roomService.room(id))
         }
 
+        get("/version") {
+            call.respondText("1.0")
+        }
+
         // Static plugin. Try to access `/static/index.html`
         static("/") {
             resources("static")

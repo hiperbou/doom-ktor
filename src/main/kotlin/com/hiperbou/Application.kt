@@ -8,8 +8,8 @@ import com.hiperbou.service.MockRoomService
 
 fun main() {
     embeddedServer(Netty,
-        port = System.getenv("PORT")?.toInt() ?: 8000,
-        host = "127.0.0.1"
+        port = System.getenv("PORT")?.toInt() ?: 8000//,
+        //host = "127.0.0.1"
     ) {
         configureHeaders()
         configureSerialization()
