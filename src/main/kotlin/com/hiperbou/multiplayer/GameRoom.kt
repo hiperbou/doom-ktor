@@ -25,7 +25,7 @@ class GameRoom(val id:String, val onDispose:()->Unit) {
 
     suspend fun send(data:ByteArray, to:Byte) {
         val player = sessions.get(to) ?: return
-        player.ws.send(data.slice(4..data.lastIndex).toByteArray())
+        player.ws.send(data.copyOfRange(4, data.size))
     }
 
     suspend fun restart() {

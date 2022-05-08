@@ -34,8 +34,8 @@ private suspend fun handleSession(ws:DefaultWebSocketServerSession, gameRoom: Ga
             is Frame.Binary -> {
                 val data = frame.readBytes()
 
-                val from = data.slice(4..7)[0]
-                val to = data.slice(0..3)[0]
+                val from = data[4]
+                val to = data[0]
 
                 if(from == 1.toByte() && to == 0.toByte()) gameRoom.restart()
                 gameRoom.join(from, ws)
