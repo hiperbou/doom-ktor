@@ -5,6 +5,7 @@ import io.ktor.server.application.*
 import io.ktor.server.routing.*
 import io.ktor.server.websocket.*
 import io.ktor.websocket.*
+import java.time.Duration
 import java.util.concurrent.ConcurrentHashMap
 
 class Player(val from:Byte, val ws:DefaultWebSocketServerSession)
@@ -42,7 +43,7 @@ class GameRoom(val id:String, val onDispose:()->Unit) {
 
 fun Application.configureSockets(gameRoomInstances:GameRoomInstances) {
     install(WebSockets) {
-        //pingPeriod = Duration.ofSeconds(15)
+        pingPeriod = Duration.ofSeconds(30)
         //timeout = Duration.ofSeconds(15)
         maxFrameSize = Long.MAX_VALUE
         masking = false
