@@ -48,25 +48,6 @@ fun Application.configureSockets(gameRoomInstances:GameRoomInstances) {
         masking = false
     }
 
-    suspend fun handleSession(ws:DefaultWebSocketServerSession, gameRoom: GameRoom) {
-        for (frame in ws.incoming) {
-            when (frame) {
-                is Frame.Binary -> {
-                    val data = frame.readBytes()
-
-                    val from = data.slice(4..7)[0]
-                    val to = data.slice(0..3)[0]
-
-                    if(from == 1.toByte() && to == 0.toByte()) gameRoom.restart()
-                    gameRoom.join(from, ws)
-                    gameRoom.send(data, to)
-                }
-                else -> {}
-            }
-        }
-        gameRoom.leave(ws)
-    }
-
     routing {
         webSocket("/api/ws/{room}") { // websocketSession
             try {
@@ -77,5 +58,23 @@ fun Application.configureSockets(gameRoomInstances:GameRoomInstances) {
             }
         }
     }
+}
 
+private suspend fun handleSession(ws:DefaultWebSocketServerSession, gameRoom: GameRoom) {
+    for (frame in ws.incoming) {
+        when (frame) {
+            is Frame.Binary -> {
+                val data = frame.readBytes()
+
+                val from = data.slice(4..7)[0]
+                val to = data.slice(0..3)[0]
+
+                if(from == 1.toByte() && to == 0.toByte()) gameRoom.restart()
+                gameRoom.join(from, ws)
+                gameRoom.send(data, to)
+            }
+            else -> {}
+        }
+    }
+    gameRoom.leave(ws)
 }
