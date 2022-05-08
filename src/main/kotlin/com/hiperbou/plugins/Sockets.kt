@@ -1,34 +1,36 @@
 package com.hiperbou.plugins
 
-import io.ktor.http.*
+import com.hiperbou.service.room.GameRoomInstances
+import io.ktor.server.application.*
+import io.ktor.server.routing.*
 import io.ktor.server.websocket.*
 import io.ktor.websocket.*
-import java.time.Duration
-import io.ktor.server.application.*
-import io.ktor.server.response.*
-import io.ktor.server.request.*
-import io.ktor.server.routing.*
-import kotlinx.coroutines.isActive
+import java.util.concurrent.ConcurrentHashMap
 
 class Player(val from:Byte, val ws:DefaultWebSocketServerSession)
-class GameRoom() {
-    private val sessions = mutableMapOf<Byte, Player>()
+class GameRoom(val id:String, val onDispose:()->Unit) {
     var gameStarted = false
+
+    private val sessions = ConcurrentHashMap<Byte, Player>()
     fun join(from:Byte, ws:DefaultWebSocketServerSession) {
         if(!sessions.contains(from)) {
             sessions.put(from, Player(from, ws))
-            //println("player ${from} joined the game")
+        }
+    }
+
+    fun leave(ws:DefaultWebSocketServerSession) {
+        sessions.values.removeIf { it.ws == ws }
+        if (sessions.isEmpty()) {
+            onDispose()
         }
     }
 
     suspend fun send(data:ByteArray, to:Byte) {
-        //println("sending message to ${to.toUInt()}")
         val player = sessions.get(to) ?: return
         player.ws.send(data.slice(4..data.lastIndex).toByteArray())
     }
 
     suspend fun restart() {
-        //println("Restarting")
         sessions.values.forEach{
             it.ws.close(CloseReason(CloseReason.Codes.INTERNAL_ERROR, "closing"))
         }
@@ -36,7 +38,9 @@ class GameRoom() {
     }
 }
 
-fun Application.configureSockets() {
+
+
+fun Application.configureSockets(gameRoomInstances:GameRoomInstances) {
     install(WebSockets) {
         //pingPeriod = Duration.ofSeconds(15)
         //timeout = Duration.ofSeconds(15)
@@ -44,43 +48,33 @@ fun Application.configureSockets() {
         masking = false
     }
 
-    val gameRoom = GameRoom()
-    suspend fun handleSession(ws:DefaultWebSocketServerSession) {
+    suspend fun handleSession(ws:DefaultWebSocketServerSession, gameRoom: GameRoom) {
         for (frame in ws.incoming) {
             when (frame) {
                 is Frame.Binary -> {
-                    //println("a binary thing received")
                     val data = frame.readBytes()
 
                     val from = data.slice(4..7)[0]
                     val to = data.slice(0..3)[0]
-                    //println("from $from, to $to")
-                    // initial packet from doom server, let's restart
+
                     if(from == 1.toByte() && to == 0.toByte()) gameRoom.restart()
-                    // if it's a new client, add it to the table of clients
                     gameRoom.join(from, ws)
-                    // send this packet to the corresponding client
                     gameRoom.send(data, to)
                 }
-                /*is Frame.Text -> {
-                    val text = frame.readText()
-                    outgoing.send(Frame.Text("YOU SAID: $text"))
-                    if (text.equals("bye", ignoreCase = true)) {
-                        close(CloseReason(CloseReason.Codes.NORMAL, "Client said BYE"))
-                    }
-                }*/
+                else -> {}
             }
         }
+        gameRoom.leave(ws)
     }
 
     routing {
         webSocket("/api/ws/{room}") { // websocketSession
-            //println("someone asking for ws!")
-            val room = call.parameters["room"]
-            //println("room $room")
-
-            handleSession(this)
-            //println("finished ws connection")
+            try {
+                val room = call.parameters["room"]!!
+                handleSession(this, gameRoomInstances.getGameRoom(room)!!)
+            } catch (e:Throwable) {
+                close(CloseReason(CloseReason.Codes.CANNOT_ACCEPT, "closing"))
+            }
         }
     }
 

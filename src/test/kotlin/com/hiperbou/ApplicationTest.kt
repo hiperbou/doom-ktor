@@ -1,6 +1,6 @@
 package com.hiperbou
 
-import com.hiperbou.plugins.configureRouting
+import com.hiperbou.plugins.configureAPI
 import com.hiperbou.plugins.configureSerialization
 import com.hiperbou.plugins.configureWeb
 import com.hiperbou.service.MockRoomService
@@ -30,7 +30,7 @@ class ApplicationTest {
         application {
             configureSerialization()
             configureWeb()
-            configureRouting(MockRoomService())
+            configureAPI(MockRoomService())
         }
 
         client.get("/api/newroom").apply {
