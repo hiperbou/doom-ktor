@@ -1,8 +1,8 @@
 package com.hiperbou.plugins
 
-import com.hiperbou.service.RoomNotFoundResponse
-import com.hiperbou.service.RoomResponse
-import com.hiperbou.service.RoomService
+import com.hiperbou.service.room.RoomNotFoundResponse
+import com.hiperbou.service.room.RoomResponse
+import com.hiperbou.service.room.RoomService
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
@@ -31,7 +31,7 @@ fun Application.configureAPI(roomService: RoomService) {
     }
 }
 
-suspend fun PipelineContext<Unit, ApplicationCall>.roomResponse(check:(String)-> RoomResponse?) {
+private suspend fun PipelineContext<Unit, ApplicationCall>.roomResponse(check:(String)-> RoomResponse?) {
     val id = call.parameters["id"] ?: return call.respondText(
         "Missing id",
         status = HttpStatusCode.BadRequest

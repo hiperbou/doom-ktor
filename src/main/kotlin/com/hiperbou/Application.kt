@@ -4,9 +4,8 @@ import com.example.plugins.configureHeaders
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import com.hiperbou.plugins.*
-import com.hiperbou.service.InMemoryRoomService
-import com.hiperbou.service.MockRoomService
-import com.hiperbou.service.room.GameRoomInstances
+import com.hiperbou.service.room.InMemoryRoomService
+import com.hiperbou.multiplayer.GameRoomInstances
 
 fun main() {
 

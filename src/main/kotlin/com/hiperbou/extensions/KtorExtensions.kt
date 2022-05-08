@@ -14,7 +14,7 @@ private fun String?.combinePackage(resourcePackage: String?) = when {
     else -> "$this.$resourcePackage"
 }
 
-public fun Route.resourcesWithDefault(defaultPath:String, defaultResourcePackage:String? = null, resourcePackage: String? = null) {
+fun Route.resourcesWithDefault(defaultPath:String, defaultResourcePackage:String? = null, resourcePackage: String? = null) {
     val packageName = staticBasePackage.combinePackage(resourcePackage)
     get("{${pathParameterName}...}") {
         val relativePath = call.parameters.getAll(pathParameterName)?.joinToString(File.separator) ?: return@get

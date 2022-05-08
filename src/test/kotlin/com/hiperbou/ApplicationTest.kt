@@ -3,9 +3,9 @@ package com.hiperbou
 import com.hiperbou.plugins.configureAPI
 import com.hiperbou.plugins.configureSerialization
 import com.hiperbou.plugins.configureWeb
-import com.hiperbou.service.MockRoomService
-import com.hiperbou.service.NewRoomResponse
-import com.hiperbou.service.RoomResponse
+import com.hiperbou.service.room.MockRoomService
+import com.hiperbou.service.room.NewRoomResponse
+import com.hiperbou.service.room.RoomResponse
 import io.ktor.client.call.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*

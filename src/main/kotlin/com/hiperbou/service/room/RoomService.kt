@@ -1,6 +1,6 @@
-package com.hiperbou.service
+package com.hiperbou.service.room
 
-import com.hiperbou.service.room.GameRoomInstances
+import com.hiperbou.multiplayer.GameRoomInstances
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -27,12 +27,12 @@ class MockRoomService: RoomService {
         return RoomResponse(id, false)
     }
 
-    override fun setRoomStarted(id: String): RoomResponse? {
+    override fun setRoomStarted(id: String): RoomResponse {
         return RoomResponse(id, true)
     }
 }
 
-class InMemoryRoomService(private val gameRoomInstances:GameRoomInstances): RoomService {
+class InMemoryRoomService(private val gameRoomInstances: GameRoomInstances): RoomService {
     override fun newRoom(): NewRoomResponse {
         val gameRoom = gameRoomInstances.newRoom()
         return NewRoomResponse(gameRoom.id)
@@ -49,5 +49,3 @@ class InMemoryRoomService(private val gameRoomInstances:GameRoomInstances): Room
         return RoomResponse(gameRoom.id, gameRoom.gameStarted)
     }
 }
-
-

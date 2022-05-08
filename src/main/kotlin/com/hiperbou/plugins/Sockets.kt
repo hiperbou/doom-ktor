@@ -1,47 +1,14 @@
 package com.hiperbou.plugins
 
-import com.hiperbou.service.room.GameRoomInstances
+import com.hiperbou.multiplayer.GameRoom
+import com.hiperbou.multiplayer.GameRoomInstances
 import io.ktor.server.application.*
 import io.ktor.server.routing.*
 import io.ktor.server.websocket.*
 import io.ktor.websocket.*
 import java.time.Duration
-import java.util.concurrent.ConcurrentHashMap
 
-class Player(val from:Byte, val ws:DefaultWebSocketServerSession)
-class GameRoom(val id:String, val onDispose:()->Unit) {
-    var gameStarted = false
-
-    private val sessions = ConcurrentHashMap<Byte, Player>()
-    fun join(from:Byte, ws:DefaultWebSocketServerSession) {
-        if(!sessions.contains(from)) {
-            sessions.put(from, Player(from, ws))
-        }
-    }
-
-    fun leave(ws:DefaultWebSocketServerSession) {
-        sessions.values.removeIf { it.ws == ws }
-        if (sessions.isEmpty()) {
-            onDispose()
-        }
-    }
-
-    suspend fun send(data:ByteArray, to:Byte) {
-        val player = sessions.get(to) ?: return
-        player.ws.send(data.slice(4..data.lastIndex).toByteArray())
-    }
-
-    suspend fun restart() {
-        sessions.values.forEach{
-            it.ws.close(CloseReason(CloseReason.Codes.INTERNAL_ERROR, "closing"))
-        }
-        sessions.clear()
-    }
-}
-
-
-
-fun Application.configureSockets(gameRoomInstances:GameRoomInstances) {
+fun Application.configureSockets(gameRoomInstances: GameRoomInstances) {
     install(WebSockets) {
         pingPeriod = Duration.ofSeconds(30)
         //timeout = Duration.ofSeconds(15)

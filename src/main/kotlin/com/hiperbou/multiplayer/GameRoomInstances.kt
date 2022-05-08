@@ -1,10 +1,9 @@
-package com.hiperbou.service.room
+package com.hiperbou.multiplayer
 
-import com.hiperbou.plugins.GameRoom
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 
-class GameRoomInstances() {
+class GameRoomInstances {
     private val gameRooms = ConcurrentHashMap<String, GameRoom>()
 
     fun newRoom():GameRoom {
