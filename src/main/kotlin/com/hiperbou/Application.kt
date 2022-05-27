@@ -1,5 +1,6 @@
 package com.hiperbou
 
+import com.example.plugins.configureCacheHeaders
 import com.example.plugins.configureHeaders
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
@@ -16,6 +17,7 @@ fun main() {
         port = System.getenv("PORT")?.toInt() ?: 8000
     ) {
         configureHeaders()
+        configureCacheHeaders()
         configureSerialization()
         configureWeb()
         configureAPI(inMemoryRoomService)
