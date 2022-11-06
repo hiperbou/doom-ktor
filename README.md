@@ -16,7 +16,7 @@ It includes one or more of the following:
 - Heroku integration
 
 
-## Try it online here: https://doom-ktor.herokuapp.com
+## Try it online here: https://doom-ktor.onrender.com
 
 
 ![](https://pbs.twimg.com/media/DuEOxFXXQAAOCeN.jpg)
