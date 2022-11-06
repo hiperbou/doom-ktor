@@ -2,6 +2,7 @@ plugins {
     id 'application'
     id 'org.jetbrains.kotlin.jvm' version '1.6.21'
     id 'org.jetbrains.kotlin.plugin.serialization' version '1.6.21'
+    id "io.ktor.plugin" version "2.1.3"
 }
 
 group "com.hiperbou"
@@ -12,6 +13,7 @@ def isDevelopment = project.ext.has("development")
 applicationDefaultJvmArgs = ["-Dio.ktor.development=$isDevelopment"]
 
 repositories {
+    mavenLocal()
     mavenCentral()
     maven { url "https://maven.pkg.jetbrains.space/public/p/ktor/eap" }
 }

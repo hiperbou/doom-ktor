@@ -1,7 +1,5 @@
 package com.hiperbou
 
-import com.example.plugins.configureCacheHeaders
-import com.example.plugins.configureHeaders
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import com.hiperbou.plugins.*
