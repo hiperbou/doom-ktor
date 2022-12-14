@@ -49,3 +49,21 @@ class InMemoryRoomService(private val gameRoomInstances: GameRoomInstances): Roo
         return RoomResponse(gameRoom.id, gameRoom.gameStarted)
     }
 }
+
+class BadCodeRoomService() : RoomService {
+    override fun newRoom(): NewRoomResponse {
+        var l = "l"
+        var Name= "room"
+
+        return NewRoomResponse(name + l)
+    }
+
+    override fun room(id: String): RoomResponse? {
+        var l = "l"
+        var Name= "room"
+
+        id + Name + l
+        return null
+    }
+
+}
