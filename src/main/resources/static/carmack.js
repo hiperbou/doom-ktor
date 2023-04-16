@@ -13,15 +13,10 @@ if (window.location.hostname == "127.0.0.1") {
     base = "http://127.0.0.1:8000";
     wsbase = "ws://127.0.0.1:8000";
 } else {
-    web = "https://doom-ktor.onrender.com";
-    base = "https://doom-ktor.onrender.com";
-    wsbase = "wss://doom-ktor.onrender.com";
+    web = "https://" + window.location.hostname;
+    base = "https://" + window.location.hostname;
+    wsbase = "wss://" + window.location.hostname;
 }
-
-/*web = "https://doom-ktor.onrender.com";
-base = "https://doom-ktor.onrender.com";
-wsbase = "wss://doom-ktor.onrender.com";
-*/
 
 timer = false;
 room = false;
