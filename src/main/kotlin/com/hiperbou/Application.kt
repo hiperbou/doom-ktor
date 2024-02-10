@@ -12,7 +12,8 @@ fun main() {
     val inMemoryRoomService = InMemoryRoomService(gameRoomInstances)
 
     embeddedServer(Netty,
-        port = System.getenv("PORT")?.toInt() ?: 8000
+        port = System.getenv("PORT")?.toInt() ?: 8000,
+        host = System.getenv("BIND_ADDRESS") ?: "0.0.0.0"
     ) {
         configureHeaders()
         configureCacheHeaders()
